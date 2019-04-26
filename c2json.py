@@ -24,45 +24,54 @@ def get_comment(line, is_mc):
         # 寻找 /* 多行注释开始符号
         comment_ms = line.find('/*', l_index)
         if comment_ms >= 0:
-            print('comment_ms:', comment_ms)
+            # print('comment_ms:', comment_ms)
             l_index += comment_ms + 2
             comment_ms = l_index - 2
 
         # 寻找 */ 多行注释结束符号
         comment_me = line.find('*/', l_index)
         if comment_me >= 0:
-            print('comment_me:', comment_me)
+            # print('comment_me:', comment_me)
             l_index += comment_me + 2
             comment_me = l_index - 2
 
         if comment_ms >= 0:
             is_mc = True
 
-        print(comment_me, comment_ms, is_mc, end=' ')
-        print(l_index, len(line))
+        # print(comment_me, comment_ms, is_mc, end=' ')
+        # print(l_index, len(line))
 
         # 如果查阅长度大于了字符长度，退出
         if l_index >= len(line):
             is_tm_comment = False
+            is_mc = False
+            # break
 
         # 如果该行没有多行注释开始符号并且多行注释也没有没有在本行，就退出
-        if comment_ms < 0 and not is_mc:
+        if (comment_ms < 0 and not is_mc):
             break
 
-        if comment_ms < 0 and comment_me < 0:
-            mcomment_ = [0, len(line)]
-            # cw_file.write(line)
-        elif comment_ms < 0 and comment_me >= 0:
-            mcomment_ = line[:comment_me+2]
+        # if comment_ms < 0 and comment_me < 0:
+        #     mcomment_ = [0, len(line)]
+        #     print('abc1')
+        #     # cw_file.write(line)
+        # el
+        mcomment_ = []
+        if comment_ms < 0 and comment_me >= 0:
+            mcomment_ = [0, comment_me+2]
+            # print('abc2:', mcomment_)
             # cw_file.write(line[:comment_me+2])
         elif comment_ms >= 0 and comment_me < 0:
-            mcomment_ = line[comment_ms:]
+            mcomment_ = [comment_ms, len(line)]
+            # print('abc3:', mcomment_)
             # cw_file.write(line[comment_ms:])
         elif comment_ms >= 0 and comment_me >= 0:
-            mcomment_ = line[comment_ms:comment_me+2]
+            mcomment_ = [comment_ms, comment_me+2]
+            # print('abc4:', mcomment_)
             # cw_file.write(line[comment_ms:comment_me+2])
         # cw_file.write('\n')
-        mcomment.append(mcomment_)
+        if mcomment_ != []:
+            mcomment.append(mcomment_)
         if comment_me >= 0 and is_mc:
             is_mc = False
         # 如果改行没有多行注释符号了，说明该行已经分析完成， 就退出
@@ -75,7 +84,8 @@ for line in c_line:
     line = line.strip()
     is_mc = False
     mcomments, is_mc = get_comment(line, is_mc)
-    print(mcomments)
+    if len(mcomments) > 0:
+        print(mcomments)
     # comment_s = line.find('//', l_index)
     # if comment_s > 0:
     #     l_index += comment_s + 2
