@@ -44,18 +44,14 @@ def get_comment(line, is_mc):
         if comment_ms >= 0:
             is_mc = True
 
-        # 如果查阅长度大于了字符长度，退出
-        if l_index >= len(line):
-            is_tm_comment = False
-            is_mc = False
-            # break
-
         # 如果该行没有多行注释开始符号并且多行注释也没有没有在本行，就退出
-        if (comment_ms < 0 and not is_mc):
+        if comment_ms < 0 and not is_mc:
             break
 
         mcomment_ = []
-        if comment_ms < 0 and comment_me >= 0:
+        if comment_ms < 0 and comment_me < 0 and l_index == 0:
+            mcomment_ = [0, len(line)]
+        elif comment_ms < 0 and comment_me >= 0:
             mcomment_ = [0, comment_me+2]
         elif comment_ms >= 0 and comment_me < 0:
             mcomment_ = [comment_ms, len(line)]
@@ -66,34 +62,44 @@ def get_comment(line, is_mc):
         if comment_me >= 0 and is_mc:
             is_mc = False
 
+        # 如果查阅长度大于了字符长度，退出
+        if l_index >= len(line):
+            break
         # 如果改行没有多行注释符号了，说明该行已经分析完成， 就退出
         if comment_ms < 0 and comment_me < 0:
             break
     return (mcomment, is_mc)
 
 
+is_mc = False
 for line in c_line:
     line = line.strip()
-    is_mc = False
     mcomments, is_mc = get_comment(line, is_mc)
     # if len(mcomments) > 0:
     #     print(mcomments)
 
     for c_i in mcomments:
-        print('\t' + line[c_i[0]: c_i[1]], end='')
+        print(line[c_i[0]: c_i[1]], end='')
     if len(mcomments) > 0:
         print(mcomments)
 
-    # comment_s = line.find('//', l_index)
-    # if comment_s > 0:
-    #     l_index += comment_s + 2
-    #     cw_file.write(line[comment_s:])
+    l_remaind = ''
+    l_remaind += line[0:mcomments[0][1]]
+    for c_i in range(len(mcomments) - 1):
+        l_remaind += line[mcomments[c_i][1]: mcomments[c_i + 1][0]]
+    l_remaind += line[mcomments[len(mcomments) - 1][1]:]
+
+    comment_s = l_remaind.find('//')
+    if comment_s > 0:
+        l_index = comment_s + 2
+        print(line[comment_s:])
+        # cw_file.write(line[comment_s:])
 
     # elif is_mline_comment:
     #     cw_file.write(line)
 
-    if is_sline_comment or is_mline_comment:
-        cw_file.write('\n')
+    # if is_sline_comment or is_mline_comment:
+    #     cw_file.write('\n')
     # cw_file.write(line+'\n')
 
 
