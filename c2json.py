@@ -32,13 +32,15 @@ def get_comment(line, is_mc):
         # 寻找 /* 多行注释开始符号
         comment_ms = line.find('/*', l_index)
         if comment_ms >= 0:
-            l_index += comment_ms + 2
+            print("l_index[%d][%d]: [%s] -comment start!" %
+                  (l_index, comment_ms, line[l_index:]))
+            l_index = comment_ms + 2
             comment_ms = l_index - 2
 
         # 寻找 */ 多行注释结束符号
         comment_me = line.find('*/', l_index)
         if comment_me >= 0:
-            l_index += comment_me + 2
+            l_index = comment_me + 2
             comment_me = l_index - 2
 
         if comment_ms >= 0:
@@ -80,7 +82,7 @@ for line in c_line:
     #     print(mcomments)
 
     for c_i in mcomments:
-        print(line[c_i[0]: c_i[1]], end='')
+        print('\t' + line[c_i[0]: c_i[1]], end='')
     if len(mcomments) > 0:
         print(mcomments)
 
