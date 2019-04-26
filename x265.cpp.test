@@ -33,7 +33,7 @@
 #include "output/reconplay.h"
 
 #if HAVE_VLD
-/* Visual Leak Detector */
+/* Visual Leak Detector *//* Visual Leak Detector *//* Visual Leak Detector *//* Visual Leak Detector */
 #include <vld.h>
 #endif
 
