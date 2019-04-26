@@ -86,6 +86,7 @@ for line in c_line:
     mcomments, is_mc = get_comment(line, is_mc)
     if len(mcomments) > 0:
         print(mcomments)
+
     # comment_s = line.find('//', l_index)
     # if comment_s > 0:
     #     l_index += comment_s + 2
