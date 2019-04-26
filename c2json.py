@@ -78,22 +78,31 @@ for line in c_line:
     # if len(mcomments) > 0:
     #     print(mcomments)
 
-    for c_i in mcomments:
-        print(line[c_i[0]: c_i[1]], end='')
-    if len(mcomments) > 0:
-        print(mcomments)
+    # for c_i in mcomments:
+    #     print(line[c_i[0]: c_i[1]], end='')
+    # if len(mcomments) > 0:
+    #     print(mcomments)
 
     l_remaind = ''
-    l_remaind += line[0:mcomments[0][1]]
-    for c_i in range(len(mcomments) - 1):
-        l_remaind += line[mcomments[c_i][1]: mcomments[c_i + 1][0]]
-    l_remaind += line[mcomments[len(mcomments) - 1][1]:]
+    if len(mcomments) > 0:
+        l_remaind += line[0:mcomments[0][0]]
+        for c_i in range(len(mcomments) - 1):
+            l_remaind += line[mcomments[c_i][1]: mcomments[c_i + 1][0]]
+        l_remaind += line[mcomments[len(mcomments) - 1][1]:]
+        # print('deal comment: ', l_remaind)
+    else:
+        l_remaind = line
 
     comment_s = l_remaind.find('//')
     if comment_s > 0:
         l_index = comment_s + 2
-        print(line[comment_s:])
-        # cw_file.write(line[comment_s:])
+        # print(line[comment_s:])
+    else:
+        comment_s = len(l_remaind)
+    l_remaind = l_remaind[:comment_s]
+    if len(l_remaind) == 0:
+        continue
+    cw_file.write(l_remaind + '\n')
 
     # elif is_mline_comment:
     #     cw_file.write(line)
