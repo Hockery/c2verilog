@@ -71,10 +71,38 @@ def get_comment(line, is_mc):
     return (mcomment, is_mc)
 
 
+single_line = ['else', '{', '}']
+parentheses_line = ['if', 'while', 'switch', 'for']
+
+# 将字符串做分析
+
+
+def find_str(line, str_start):
+    strs = []
+    str_end = True
+    # 寻找转译符号 \
+
+    return (strs, str_end)
+
+
+def is_line_end(line, is_start):
+    return is_start
+
+
+def get_word(line):
+    # 字符串不分割，作为一个串返回
+
+    # 变量的值都进行分割为单元进行返回
+    pass
+
+
+c_lines = ''
 is_mc = False
 for line in c_line:
     line = line.strip()
     mcomments, is_mc = get_comment(line, is_mc)
+
+    # 去掉 '/**/' 样式的多行注释
     l_remaind = ''
     if len(mcomments) > 0:
         l_remaind += line[0:mcomments[0][0]]
@@ -84,6 +112,7 @@ for line in c_line:
     else:
         l_remaind = line
 
+    # 去掉 '//' 样式的单行注释
     comment_s = l_remaind.find('//')
     if comment_s > 0:
         l_index = comment_s + 2
@@ -92,6 +121,18 @@ for line in c_line:
     l_remaind = l_remaind[:comment_s]
     if len(l_remaind) == 0:
         continue
+
     cw_file.write(l_remaind + '\n')
+    if is_line_end(l_remaind):
+        c_lines += ' ' + l_remaind
+        get_word(c_lines)
+    else:
+        c_lines += ' ' + l_remaind
+
+    # 将多行代码转换为单行代码
+
+    # l_remaind 是纯代码， 下面对代码进行解析
+    print(l_remaind.split())
+
 
 cw_file.close()
