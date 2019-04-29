@@ -26,156 +26,109 @@ def symbol_code(n):
 
     if len(n) >= 3:
         if n[:3] == '>>=':
-            pass
             return n[3:]
         if n[:3] == '<<=':
-            pass
             return n[3:]
     if len(n) >= 2:
         if n[:2] == '+=':
-            pass
             return n[2:]
         if n[:2] == '-=':
-            pass
             return n[2:]
         if n[:2] == '*=':
-            pass
             return n[2:]
         if n[:2] == '/=':
-            pass
             return n[2:]
         if n[:2] == '%=':
-            pass
             return n[2:]
 
         if n[:2] == '>=':
-            pass
             return n[2:]
         if n[:2] == '<=':
-            pass
             return n[2:]
         if n[:2] == '==':
-            pass
             return n[2:]
 
         if n[:2] == '->':
-            pass
             return n[2:]
         if n[:2] == '++':
-            pass
             return n[2:]
         if n[:2] == '--':
-            pass
             return n[2:]
         if n[:1] == '//':
             stat['scomment'] = True
             return n[1:]
 
         if n[:2] == '&&':
-            pass
             return n[2:]
         if n[:2] == '||':
-            pass
             return n[2:]
 
     if len(n) >= 1:
         if n[:1] == '=':
-            pass
             return n[1:]
         if n[:1] == '<':
-            pass
             return n[1:]
         if n[:1] == '>':
-            pass
             return n[1:]
         if n[:1] == '~':
-            pass
             return n[1:]
         if n[:1] == '!':
-            pass
             return n[1:]
         if n[:1] == '@':
-            pass
             return n[1:]
         if n[:1] == '#':
-            pass
             return n[1:]
         if n[:1] == '$':
-            pass
             return n[1:]
         if n[:1] == '%':
-            pass
             return n[1:]
         if n[:1] == '6':
-            pass
             return n[1:]
         if n[:1] == '&':
-            pass
             return n[1:]
         if n[:1] == '*':
-            pass
             return n[1:]
         if n[:1] == '(':
-            pass
             return n[1:]
         if n[:1] == ')':
-            pass
             return n[1:]
         if n[:1] == '{':
-            pass
             return n[1:]
         if n[:1] == '}':
-            pass
             return n[1:]
         if n[:1] == '_':
-            pass
             return n[1:]
         if n[:1] == '+':
-            pass
             return n[1:]
         if n[:1] == '-':
-            pass
             return n[1:]
         if n[:1] == '*':
-            pass
             return n[1:]
         if n[:1] == '/':
-            pass
             return n[1:]
         if n[:1] == ',':
-            pass
             return n[1:]
         if n[:1] == '.':
-            pass
             return n[1:]
         if n[:1] == '?':
-            pass
             return n[1:]
         if n[:1] == ';':
-            pass
             return n[1:]
         if n[:1] == ':':
-            pass
             return n[1:]
         if n[:1] == '"':
             if stat['scomment'] != True and stat['mcomment'] != True:
                 stat['str'] = not stat['str']
-            pass
             return n[1:]
         if n[:1] == '\'':
-            pass
             return n[1:]
         if n[:1] == '|':
-            pass
             return n[1:]
         if n[:1] == '\\':
-            pass
             return n[1:]
         if n[:1] == '[':
-            pass
             return n[1:]
         if n[:1] == ']':
-            pass
             return n[1:]
     print(n)
 
@@ -229,7 +182,6 @@ def splite_code(code):
                 symbol = ''
             else:
                 symbol += i
-    pass
 
 
 if __name__ == "__main__":
