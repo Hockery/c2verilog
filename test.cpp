@@ -2,8 +2,13 @@
 
 int main()
 {
-    printf("abc\n //fdsajkjfdlsajfdjsljgln //fjsaljlkjdlsaf \
+    printf("abc\n //fdsajkjfdlsajfdjsljgln //fjsaljlkjdlsaf \"abc/* abc */\"\
     ; \
     ");
+    /*"adbsf*/ /*
+        
+        \\fksjajf
+        
+        "*/
     return 0;
 }

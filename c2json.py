@@ -41,6 +41,11 @@ def get_comment(line, is_mc):
             l_index = comment_me + 2
             comment_me = l_index - 2
 
+        d_quot = line.find('"', l_index)
+
+        if comment_ms < d_quot:
+            pass
+
         if comment_ms >= 0:
             is_mc = True
 
