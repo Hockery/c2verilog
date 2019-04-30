@@ -3,7 +3,6 @@ from copy import deepcopy
 
 mcomment = False
 
-include_file = ''
 
 code_parse = []
 
@@ -37,7 +36,6 @@ def un_sline():
 
 def symbol_code(n):
     global cur_node
-    global include_file
     is_option = True
     if (stat['scomment']) and (stat['str']) and (stat['mconment']):
         is_option = False
@@ -46,7 +44,6 @@ def symbol_code(n):
     if len(cur_node) > 0 and cur_node[0] == 'include' and cur_node[1]['status'] == 1 \
             and ((cur_node[1]['symbol'] == 1 and n[0] != '"') or (cur_node[1]['symbol'] == 2 and n[0] != '>')):
         cur_node[1]['node'][1] += n
-        # print('include_file:', include_file)
         return ''
 
     if len(n) == 0:
@@ -116,8 +113,6 @@ def symbol_code(n):
             if len(cur_node) > 0 and cur_node[0] == 'include':
                 # print('cur_node[1][status]:', cur_node[1]['status'])
                 if cur_node[1]['status'] == 1 and cur_node[1]['symbol'] == 2:
-                    # cur_node[1]['node'].append(include_file)
-                    # include_file = ''
                     un_sline()
             return n[1:]
         if n[:1] == '~':
@@ -175,11 +170,8 @@ def symbol_code(n):
                     cur_node[1]['symbol'] = 1  # 1 代表 ""; 2 代表 <>
                     cur_node[1]['status'] = 1
                 elif cur_node[1]['status'] == 1 and cur_node[1]['symbol'] == 1:
-                    print('include:', include_file)
                     # print('cur_node[1]:', cur_node)
                     # print('cur_node[1]:', cur_node[1])
-                    # cur_node[1]['node'].append(include_file)
-                    # include_file = ''
                     un_sline()
                     # cur_node[1]['status'] = 2
             if stat['scomment'] != True and stat['mcomment'] != True:
@@ -219,12 +211,9 @@ def deal_symbol(symbols):
 
 def parse_code(code):
     global cur_node
-    global include_file
     global code_parse
     if len(cur_node) > 0 and cur_node[0] == 'include' and cur_node[1]['status'] == 1:
         cur_node[1]['node'][1] += code
-        # include_file += code
-        # print('include_file:', include_file)
         return
     if stat['predef'] == True:
         if code == 'define':
@@ -253,10 +242,10 @@ def parse_code(code):
             code_parse.append(['include', ''])
             stat['sline'].append(
                 ['include', {'status': 0, 'node': code_parse[-1]}])
-            print('stat[sline]', stat['sline'])
+            # print('stat[sline]', stat['sline'])
             cur_node = stat['sline'][-1]
             # print('cur_node:', cur_node)
-            print('predef words: ', code)
+            # print('predef words: ', code)
         elif code == 'pragma':
             #print('predef words: ', code)
             pass
