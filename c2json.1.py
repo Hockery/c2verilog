@@ -3,10 +3,17 @@ from copy import deepcopy
 
 mcomment = False
 
-
+# 解析的代码
 code_parse = []
-
+# 解析的当前节点的状态
 cur_node = []
+
+############################## - #############################
+# 遍历代码的时候，尽量保存更多的有用的信息，确保代码信息保留完整性。
+# mcomment, scomment 是记录代码单行注释和多行注释。
+# str 是记录代码字符串状态
+# predef 是记录代码预定义状态
+############################## - #############################
 stat = {
     'mcomment': False,
     'scomment': False,
@@ -31,16 +38,19 @@ def un_sline():
     else:
         cur_node = []
 
+############################## - #############################
 # 解析符号
+# 符号是通过优先级和空格等来进行划分的，如果有在一起的符号，可以通过逐个解释来完成
+############################## - #############################
 
 
 def symbol_code(n):
     global cur_node
-    is_option = True
+    is_option = True  # 在注释和字符串中的符号是做另外的解释的， 这里通过 is_option 变量来加以区分
     if (stat['scomment']) and (stat['str']) and (stat['mconment']):
         is_option = False
         pass
-
+    # 由于文件名中有各种各样的字符， 所以include文件名的时候要单独处理
     if len(cur_node) > 0 and cur_node[0] == 'include' and cur_node[1]['status'] == 1 \
             and ((cur_node[1]['symbol'] == 1 and n[0] != '"') or (cur_node[1]['symbol'] == 2 and n[0] != '>')):
         cur_node[1]['node'][1] += n
@@ -49,7 +59,7 @@ def symbol_code(n):
     if len(n) == 0:
         return ''
 
-    if len(n) >= 2:
+    if len(n) >= 2:  # 多行注释
         if stat['scomment'] != True and stat['str'] != True:
             if n[:2] == '/*':
                 stat['mcomment'] = True
@@ -58,6 +68,8 @@ def symbol_code(n):
 
     if len(n) >= 3:
         if n[:3] == '>>=':
+            if is_option:
+                pass
             return n[3:]
         if n[:3] == '<<=':
             return n[3:]
@@ -82,11 +94,13 @@ def symbol_code(n):
 
         if n[:2] == '->':
             return n[2:]
+
         if n[:2] == '++':
             return n[2:]
         if n[:2] == '--':
             return n[2:]
-        if n[:1] == '//':
+
+        if n[:1] == '//':  # 单行注释
             stat['scomment'] = True
             return n[1:]
 
@@ -189,9 +203,10 @@ def symbol_code(n):
             return n[1:]
     print(n)
 
+
+############################## - #############################
 # 解析符号串
-
-
+############################## - #############################
 def deal_symbol(symbols):
     s = deepcopy(symbols)
     # stat_ = deepcopy(stat)
@@ -209,6 +224,9 @@ def deal_symbol(symbols):
         # print(len(s))
 
 
+############################## - #############################
+
+############################## - #############################
 def parse_code(code):
     global cur_node
     global code_parse
@@ -443,10 +461,16 @@ def parse_code(code):
     # print('other:', code)
 
 
+############################## - #############################
+#
+############################## - #############################
 def deal_code(codes):
     parse_code(codes)
 
 
+############################## - #############################
+# c代码符号中规定单词只能是字符串，数字和下划线组成。 通过ascii来划分单词和符号
+############################## - #############################
 def is_word_connect(char_):
     c = ord(char_)
     if (c >= 48 and c <= 57) or (c >= 65 and c <= 90) or (c >= 97 and c <= 122) or (c == 95):
@@ -455,6 +479,9 @@ def is_word_connect(char_):
         return False
 
 
+############################## - #############################
+
+############################## - #############################
 def splite_code(code):
     word = ''
     symbol = ''
@@ -484,6 +511,9 @@ def splite_code(code):
     print(code_parse)
 
 
+############################## - #############################
+
+############################## - #############################
 if __name__ == "__main__":
 
     c_file = open('x265.cpp.test', 'r')
